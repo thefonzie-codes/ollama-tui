@@ -10,6 +10,9 @@ import (
 	"time"
 )
 
+type OllamaResponse struct {
+}
+
 // Quick check to see if Ollama is running by calling the /api/tags endpoint
 
 func IsOllamaRunning() bool {
@@ -18,9 +21,9 @@ func IsOllamaRunning() bool {
 		Timeout: 2 * time.Second,
 	}
 
-	fmt.Printf("URL: %v \n", URL)
+	fmt.Printf("URL: %v \n", url)
 
-	resp, err := client.Get(URL + "/api/tags")
+	resp, err := client.Get(url + "/api/tags")
 
 	if err != nil {
 		return false
@@ -68,7 +71,7 @@ func StartOllama() {
 func CallOllama() ([]string, error) {
 
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", URL+"/api/tags", nil)
+	req, err := http.NewRequest("GET", url+"/api/tags", nil)
 
 	if err != nil {
 		panic(err)
@@ -94,4 +97,3 @@ func CallOllama() ([]string, error) {
 
 	return models, nil
 }
-

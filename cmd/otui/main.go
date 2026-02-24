@@ -13,7 +13,7 @@ func initialModel() model {
 }
 
 // var URL string = os.Getenv("OLLAMA_URL")
-var URL string = "http://localhost:11434"
+var url string = "http://localhost:11434"
 
 func main() {
 
@@ -23,7 +23,7 @@ func main() {
 		fmt.Printf("Error loading dotenv: %v", err)
 	}
 
-	fmt.Println(URL)
+	fmt.Println(url)
 
 	if !IsOllamaRunning() {
 		fmt.Printf("IsOllamaRunning = %v \n", IsOllamaRunning())
@@ -47,4 +47,3 @@ func main() {
 
 	fmt.Println(models)
 }
-
