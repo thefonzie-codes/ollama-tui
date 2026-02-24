@@ -8,8 +8,11 @@ import (
 	dotenv "github.com/joho/godotenv"
 )
 
-func initialModel() model {
-	return model("Hello")
+func initialModel() Model {
+	return Model{
+		models: []string{},
+		cursor: 0,
+	}
 }
 
 // var URL string = os.Getenv("OLLAMA_URL")
@@ -39,7 +42,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	models, err := CallOllama()
+	models, err := GetOllamaModels()
 	if err != nil {
 		fmt.Printf("Womp womp, there's an error: %v \n", err)
 		os.Exit(1)

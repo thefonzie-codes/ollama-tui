@@ -2,13 +2,17 @@ package main
 
 import tea "github.com/charmbracelet/bubbletea"
 
-type model string
+type Model struct {
+	models []string
+	cursor int
+	err    error
+}
 
-func (m model) Init() tea.Cmd {
+func (m Model) Init() tea.Cmd {
 	return nil
 }
 
-func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	switch msg := msg.(type) {
 
@@ -23,6 +27,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
-func (m model) View() string {
+func (m Model) View() string {
 	return "hello"
 }
