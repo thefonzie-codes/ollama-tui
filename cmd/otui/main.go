@@ -15,7 +15,6 @@ func initialModel() Model {
 	}
 }
 
-// var URL string = os.Getenv("OLLAMA_URL")
 var url string = "http://localhost:11434"
 
 func main() {
@@ -25,6 +24,14 @@ func main() {
 	if err != nil {
 		fmt.Printf("Error loading dotenv: %v", err)
 	}
+
+	url = os.Getenv("OLLAMA_URL")
+
+	// uncomment below if default ollama URL is different
+
+	// if url == "http://localhost:11434" {
+	//
+	// }
 
 	fmt.Println(url)
 
@@ -38,13 +45,13 @@ func main() {
 	p := tea.NewProgram(initialModel())
 
 	if _, err := p.Run(); err != nil {
-		fmt.Printf("Womp womp, there's an error: %v \n", err)
+		fmt.Printf("Womp womp, error starting Bubbletea: %v \n", err)
 		os.Exit(1)
 	}
 
 	models, err := GetOllamaModels()
 	if err != nil {
-		fmt.Printf("Womp womp, there's an error: %v \n", err)
+		fmt.Printf("Womp womp, couldn't get the Ollama models: %v \n", err)
 		os.Exit(1)
 	}
 
