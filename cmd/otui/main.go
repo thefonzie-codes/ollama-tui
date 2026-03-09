@@ -2,18 +2,12 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
-	tea "github.com/charmbracelet/bubbletea"
+	tea "charm.land/bubbletea/v2"
 	dotenv "github.com/joho/godotenv"
 )
-
-func initialModel() Model {
-	return Model{
-		models: []string{},
-		cursor: 0,
-	}
-}
 
 var url string = "http://localhost:11434"
 
@@ -45,7 +39,7 @@ func main() {
 	p := tea.NewProgram(initialModel())
 
 	if _, err := p.Run(); err != nil {
-		fmt.Printf("Womp womp, error starting Bubbletea: %v \n", err)
+		log.Fatal("Womp womp, error starting Bubbletea: %v \n", err)
 		os.Exit(1)
 	}
 
