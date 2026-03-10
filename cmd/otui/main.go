@@ -12,7 +12,8 @@ import (
 var url string = "http://localhost:11434"
 
 func main() {
-
+	// Enable Error Logging
+	logError()
 	err := dotenv.Load()
 
 	if err != nil {
@@ -39,7 +40,7 @@ func main() {
 	p := tea.NewProgram(initialModel())
 
 	if _, err := p.Run(); err != nil {
-		log.Fatal("Womp womp, error starting Bubbletea: %v \n", err)
+		log.Fatalf("Womp womp, error starting Bubbletea: %v \n", err)
 		os.Exit(1)
 	}
 

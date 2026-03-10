@@ -13,6 +13,7 @@ type Model struct {
 	err          error
 	textInput    textinput.Model
 	quitting     bool
+	thinking     bool
 }
 
 func initialModel() Model {
@@ -32,7 +33,6 @@ func initialModel() Model {
 }
 
 func (m Model) Init() tea.Cmd {
-
 	return textinput.Blink
 }
 
