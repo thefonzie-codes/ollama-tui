@@ -5,10 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
 	"time"
+
+	dotenv "github.com/joho/godotenv"
 )
 
 type OllamaListResponse struct {
@@ -27,18 +30,26 @@ type OllamaModelInfo struct {
 
 // Quick check to see if Ollama is running by calling the /api/tags endpoint
 
-func IsOllamaRunning() bool {
+func getOllamaURL() string {
+	err := dotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading dotenv: %v", err)
+	}
+	url := os.Getenv("OLLAMA_URL")
+	return url
+}
+
+func IsOllamaRunning() (bool, error) {
+	url := getOllamaURL()
 
 	client := http.Client{
 		Timeout: 2 * time.Second,
 	}
-
 	fmt.Printf("URL: %v \n", url)
-
 	resp, err := client.Get(url + "/api/tags")
 
 	if err != nil {
-		return false
+		return false, fmt.Errorf("Could not ping Ollama: %v", err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
@@ -46,15 +57,18 @@ func IsOllamaRunning() bool {
 	}
 
 	defer resp.Body.Close()
-	return resp.StatusCode == http.StatusOK
+	return resp.StatusCode == http.StatusOK, nil
 }
 
 // Start Ollama if it is not running
 
-func StartOllama() {
+func StartOllama() bool {
+	_, err := IsOllamaRunning()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	fmt.Println("Attempting to start Ollama...")
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -70,18 +84,21 @@ func StartOllama() {
 
 	time.Sleep(2 * time.Second)
 
-	if !IsOllamaRunning() {
+	running, err := IsOllamaRunning()
+	if err != nil {
 		fmt.Println("Ollama failed to start")
 		os.Exit(1)
 	}
 
 	fmt.Println("Ollama started successfully")
+	return running
 }
 
 // Call Ollama to get a list of models
 
 func GetOllamaModels() (OllamaListResponse, error) {
 
+	url := getOllamaURL()
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url+"/api/tags", nil)
 

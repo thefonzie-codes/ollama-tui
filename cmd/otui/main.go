@@ -6,21 +6,14 @@ import (
 	"os"
 
 	tea "charm.land/bubbletea/v2"
-	dotenv "github.com/joho/godotenv"
+	// dotenv "github.com/joho/godotenv"
 )
 
-var url string = "http://localhost:11434"
+// var url string = "http://localhost:11434"
 
 func main() {
 	// Enable Error Logging
-	logError()
-	err := dotenv.Load()
-
-	if err != nil {
-		fmt.Printf("Error loading dotenv: %v", err)
-	}
-
-	url = os.Getenv("OLLAMA_URL")
+	// logError()
 
 	// uncomment below if default ollama URL is different
 
@@ -28,13 +21,14 @@ func main() {
 	//
 	// }
 
-	fmt.Println(url)
+	// fmt.Println(url)
 
-	if !IsOllamaRunning() {
-		fmt.Printf("IsOllamaRunning = %v \n", IsOllamaRunning())
-		fmt.Println("Oops, looks like Ollama is not running...")
-		StartOllama()
-	}
+	StartOllama()
+
+	// 	fmt.Printf("IsOllamaRunning = %v \n", IsOllamaRunning())
+	// 	fmt.Println("Oops, looks like Ollama is not running...")
+	// 	StartOllama()
+	// }
 
 	// prints "Hello" for now
 	p := tea.NewProgram(initialModel())
