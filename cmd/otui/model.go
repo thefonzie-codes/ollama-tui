@@ -30,9 +30,10 @@ func initialModel() Model {
 	ta.Focus()
 	ta.SetVirtualCursor(false)
 	ta.SetWidth(30)
-	ta.CharLimit = 1000
 	ta.SetHeight(3)
+	ta.CharLimit = 156
 	ta.ShowLineNumbers = false
+	ta.Prompt = "┃ "
 
 	s := ta.Styles()
 	s.Focused.CursorLine = lipgloss.NewStyle()
@@ -48,11 +49,11 @@ func initialModel() Model {
 		quitting:     false,
 		ollamaModels: []string{},
 		messages:     []string{},
-		// cursor:       0,
-		textarea:    ta,
-		viewport:    vp,
-		senderStyle: lipgloss.NewStyle().Foreground(lipgloss.Color("5")),
-		err:         nil,
+		cursor:       0,
+		textarea:     ta,
+		viewport:     vp,
+		senderStyle:  lipgloss.NewStyle().Foreground(lipgloss.Color("5")),
+		err:          nil,
 	}
 }
 
@@ -63,10 +64,10 @@ func (m Model) Init() tea.Cmd {
 func (m Model) View() tea.View {
 	viewportView := m.viewport.View()
 
-	v := tea.NewView(viewportView + "/n" + m.textarea.View())
+	v := tea.NewView(viewportView + "\n" + m.textarea.View())
 	c := m.textarea.Cursor()
 	if c != nil {
-		c.Y += lipgloss.Height(m.headerView())
+		c.Y += lipgloss.Height(viewportView)
 	}
 	v.Cursor = c
 	// v.AltScreen = true
@@ -74,6 +75,7 @@ func (m Model) View() tea.View {
 }
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	// var cmd tea.Cmd
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		m.viewport.SetWidth(msg.Width)
@@ -112,7 +114,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	// m.textarea, cmd = m.textarea.Update(msg)
 	return m, nil
+	// return m, cmd
 }
 
-func (m Model) headerView() string { return "ChattaTUI\n" }
-func (m Model) footerView() string { return "\n(esc or Ctrl-c to quit)" }
+// func (m Model) headerView() string { return "ChattaTUI\n" }
+// func (m Model) footerView() string { return "\n(esc or Ctrl-c to quit)" }
