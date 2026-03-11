@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"log"
 	"os"
 
@@ -23,7 +23,7 @@ func main() {
 
 	// fmt.Println(url)
 
-	StartOllama()
+	// StartOllama()
 
 	// 	fmt.Printf("IsOllamaRunning = %v \n", IsOllamaRunning())
 	// 	fmt.Println("Oops, looks like Ollama is not running...")
@@ -38,11 +38,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	models, err := GetOllamaModels()
-	if err != nil {
-		fmt.Printf("Womp womp, couldn't get the Ollama models: %v \n", err)
-		os.Exit(1)
-	}
+	// models, err := GetOllamaModels()
+	// if err != nil {
+	// 	fmt.Printf("Womp womp, couldn't get the Ollama models: %v \n", err)
+	// 	os.Exit(1)
+	// }
 
-	fmt.Println(models)
+	// fmt.Println(models)
 }
